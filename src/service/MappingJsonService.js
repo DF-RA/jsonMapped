@@ -10,27 +10,39 @@ export function getMap(filePath) {
     return jsonMap
 }
 
-export function compareJsonToMap(mapPath, jsonDifPath) {
-    const fileMap = FileService.readFile(mapPath)
-    const fileMapJson = fileMap.split('\n')
-
-    const jsonList = FileService.readPath(jsonDifPath)
-
-    const jsonDataList = jsonList
-        .map(file => getMap(pathUtils.join(jsonDifPath, file)))
-        .flat();
-    const mapDataList = [...(new Set(jsonDataList))]
+export function compareJsonToMap(mapPath, dataPath) {
+    const fileMapJson = getMapFromPath(mapPath)
+    const mapDataList = getMapFromJsonPath(dataPath)
 
     const result = fileMapJson.map(row =>{
         const pathList = row.split('.')
         const field = pathList[pathList.length-1]
         return {
-            path: row,
-            field: camelcase(field),
-            exists: mapDataList.includes(row)
+            "jsonPath": row,
+            "field": camelcase(field),
+            "mapped": mapDataList.includes(row)
         }
     })
 
     return result;
 
+}
+
+function getMapFromPath(mapPath){
+    const fileMap = FileService.readFile(mapPath)
+    return fileMap.split('\n')
+}
+
+function getMapFromJsonPath(dataPath){
+    let jsonDataList = []
+    if(FileService.isDirectory(dataPath)){
+        const jsonList = FileService.readPath(dataPath)
+        jsonDataList = jsonList
+            .map(file => getMap(pathUtils.join(dataPath, file)))
+            .flat();
+    } else {
+        jsonDataList = FileService.readJson(dataPath)
+    }
+    
+    return [...(new Set(jsonDataList))]
 }
