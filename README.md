@@ -132,3 +132,7 @@ $.rows[*].name,name,true
 $.fields,fields,true
 $.fields.name,name,true
 ```
+
+## Parametros
+
+Si quiere ver en consola el contenido del archivo, puede usar -s o --show

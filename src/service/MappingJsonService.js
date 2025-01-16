@@ -41,8 +41,7 @@ function getMapFromJsonPath(dataPath){
             .map(file => getMap(pathUtils.join(dataPath, file)))
             .flat();
     } else {
-        jsonDataList = FileService.readJson(dataPath)
+        jsonDataList = getMap(dataPath)
     }
-    
     return [...(new Set(jsonDataList))]
 }
