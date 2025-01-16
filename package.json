@@ -1,12 +1,25 @@
 {
-  "name": "jsonmapped",
+  "name": "json-mapped",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "mapping-json": "./src/cli/MappingJsonCli.js",
+    "validate-json-layout": "./src/cli/ValidateMapStructureJsonCli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "commander": "^13.0.0",
+    "json-2-csv": "^5.5.7",
+    "lodash": "^4.17.21",
+    "lodash.camelcase": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6"
+  }
 }
