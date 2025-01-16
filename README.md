@@ -48,16 +48,15 @@ Json
 
 ```json
 {
-	"id": 1,
-	"fields": {
-		"name": "hola"
-	},
-	"rows": [
-		{
-			"name": "chao"
-		}
-	]
-
+   "id": 1,
+   "fields": {
+      "name": "hola"
+   },
+   "rows": [
+      {
+         "name": "chao"
+      }
+   ]
 }
 ```
 Resultado
@@ -108,16 +107,15 @@ Json
 
 ```json
 {
-	"id": 1,
-	"fields": {
-		"name": "hola"
-	},
-	"rows": [
-		{
-			"name": "chao"
-		}
-	]
-
+   "id": 1,
+   "fields": {
+      "name": "hola"
+   },
+   "rows": [
+      {
+         "name": "chao"
+      }
+   ]
 }
 ```
 
