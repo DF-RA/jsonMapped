@@ -27,24 +27,84 @@ Ya con esto, tenemos los comandos disponibles.
 
 ## Uso:
 
-### mapping-json {jsonFile}
+### jsonpath-mapping {jsonFile}
 
-Este comando permite crear un mapa de jsonPath de cada campo y crear un archivo txt con esta data.
+Crea un mapa en formato jsonPath de un json.
 
-Para usarlo solo tenemos que colocar la ruta del archivo .json en el parametro 'jsonFile'
+Creara un archivo en la misma ruta del mapa con el mismo nombre agregando '_map.text' al final
+
+
+Donde:
+- jsonFile: Es la ruta del json
 
 Un ejemplo: 
 ```bash
-mapping-json ./data/maps/info.json
+jsonpath-mapping ./info.json
 ```
 
-Esto nos va a mostrar en consola una lista de rutas de jsonPath de cada dampo y a la vez va a crear en la misma ruta del archivo json, un nuevo archivo con el mismo nombre pero con '_result.text' al final. Para el comando anterior quedaria con el nombre 'info_result.text'
+Ejemplo: 
+
+Json
+
+```json
+{
+	"id": 1,
+	"fields": {
+		"name": "hola"
+	},
+	"rows": [
+		{
+			"name": "chao"
+		}
+	]
+
+}
+```
+Resultado
+
+```text
+$.id
+$.fields
+$.fields.name
+$.rows[*]
+$.rows[*].name
+```
 
 
-### validate-json-layout {textMap}.txt {pathWithJsons}
-Este comando permite validar la estructura de una lista de jsons a partir de una lista de jsonPaths de un archivo de texto plano.
+### jsonpath-verify {textMap} {pathData}
+Valida la estructura de un json a partir de un mapa con estructura JsonPath.
 
-Si queremos validar la estructura de este json
+Creara un archivo en la misma ruta del mapa con el mismo nombre agregando '_result.csv' al final
+
+Donde:
+- jsonPath: Es la ruta del campo
+- field: Es el nombre del campo en camelCase
+- mapped: Indica si la ruta del jsonpath existe en el json
+
+```bash
+jsonpath-verify ./info_map.text ./info.json
+```
+
+NOTA: En caso de que tienes una lista de jsons variables y quieres agruparlos a todos como un unico json a validar, puedes guardarlos en una carpeta y pasar en el segundo parametro la ruta a esta carpeta
+
+```bash
+jsonpath-verify ./info_map.text ./info_jsons
+```
+
+Ejemplo: 
+
+Mapa
+
+```text
+$.id
+$.name
+$.rows[*]
+$.rows[*].name
+$.fields
+$.fields.name
+```
+
+Json
 
 ```json
 {
@@ -61,27 +121,10 @@ Si queremos validar la estructura de este json
 }
 ```
 
-con este mapa
-
-```text
-$.id
-$.name
-$.rows[*]
-$.rows[*].name
-$.fields
-$.fields.name
-```
-
-Tenemos que guardar el json en un directorio diferente al archivo plano (para este caso en la misma ruta crearemos data) y correr el comando
-
-```bash
-validate-json-layout info.text ./data
-```
-
-El cual nos retornara una estructura CSV con el resultado que seria el siguiente:
+Resultado
 
 ```csv
-path,field,exists
+jsonPath,field,mapped
 $.id,id,true
 $.name,name,false
 $.rows[*],rows,true
@@ -89,7 +132,3 @@ $.rows[*].name,name,true
 $.fields,fields,true
 $.fields.name,name,true
 ```
-
-Donde el campo exists indica si esa ruta del mapa existe en el json que estamos validando.
-
-Aparte creara en la misma ruta del archivo plano un nuevo archivo con su mismo nombre agregando '_result.csv' con la misma data que se mostro en consola.

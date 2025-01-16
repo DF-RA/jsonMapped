@@ -17,11 +17,16 @@ export function readPath(directory){
     return fsUtils.readdirSync(directory)
 }
 
+export function isDirectory(path){
+    const fileStats = fsUtils.statSync(path)
+    return fileStats.isDirectory()
+}
+
 export function createResultFile(filePath, data){
     const fileName = pathUtils.basename(filePath)
     const ext = pathUtils.extname(fileName)
     const absolutePath = pathUtils.dirname( filePath )
-    const resultFile = fileName.replace(ext, '_result.text')
+    const resultFile = fileName.replace(ext, '_map.text')
     const newFilePath = pathUtils.join(absolutePath, resultFile)
     let fileBody = ''
     data.forEach(line => {
